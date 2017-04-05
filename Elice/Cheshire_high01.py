@@ -7,10 +7,8 @@
 def dodoStick():
   # init
   num_anim = 100
-  # l_anim = {} # * due to indexing, pick dict rather than list
   l_anim = []
   for i in range(num_anim):
-    # l_anim[i] = i 
     l_anim.append(i)
 
   i = 0; # list의 remove를 이용하면 코드가 달라진다 
