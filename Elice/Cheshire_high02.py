@@ -6,44 +6,67 @@
 # N + 1, N + 2, ... 는 모두 다 7, 11, 17로 구성 가능한 숫자들
 # Dynamic programming
 '''
+# 기념할만한 첫 동적....
 def eatMeDynamic (num1, num2, num3):
-  print ()
+  minimum = min([num1, num2, num3])
+  maximum = max([num1, num2, num3])
+  memoizationTable = [True] # 0은 항상 조합 가능
+  checkList = []
+
+  # 반복 범위가 작아졌음에 유의! 가장 큰 num3까지만 반복
+  for num in range (maximum + 1):
+    possibleRange = [num // num1, num // num2, num // num3]
+    memoizationTable.append(False)
+    for i in range (0, possibleRange[0] + 1):
+      for j in range (0, possibleRange[1] + 1):
+        for k in range (0, possibleRange[2] + 1):
+          if (num1 * i + num2 * j + num3 * k == num):
+            memoizationTable[num] = True
+    num += 1
+
+  print (memoizationTable)
+
+  num = maximum + 1
+  while (len (checkList) <= minimum):
+    memoizationTable.append(False)
+    if (memoizationTable[num - num1] \
+        or memoizationTable[num - num2] \
+        or memoizationTable[num - num3]):
+      memoizationTable[num] = True
+      checkList.append(num)
+    else :
+      memoizationTable[num] = False
+      checkList = []
+    num += 1
+
+  answer = checkList[0] - 1
+  return answer
+
 
 def eatMeIter (num1, num2, num3):
   minimum = min ([num1, num2, num3])
-  check_list = []
+  checkList = []
   num = 0
 
-  while (len (check_list) <= minimum): # N + 1 ~ N + 7에 대해 탐색
-    possible_range = [num//num1, num//num2, num//num3]
+  while (len (checkList) <= minimum): # N + 1 ~ N + 7에 대해 탐색
+    possibleRange = [num // num1, num // num2, num // num3]
     feasibility = False
 
-    for i in range (0, possible_range[0] + 1):
-      for j in range (0, possible_range[1] + 1):
-        for k in range (0, possible_range[2] + 1):
+    for i in range (0, possibleRange[0] + 1):
+      for j in range (0, possibleRange[1] + 1):
+        for k in range (0, possibleRange[2] + 1):
           # print (i, j, k, num)
-          # 조합을 이렇게하다니... 이건 확실히 알고리즘은 아니네
           if (num1 * i + num2 * j + num3 * k == num):
-            check_list.append (num)
-            # print (check_list)
+            checkList.append (num)
+            print (checkList)
             feasibility = True
             break
-        # 왜 이게 없으면 무한 루프가 되는걸까...
-        # 는 아까 내가 뭘 했길래 지금은 되는게 아까 그랬을깤ㅋㅋ
-        '''
-        else:
-          continue
-        break
-      else:
-        continue
-      break
-      '''
 
     if feasibility == False:
-      check_list = []
+      checkList = []
     num += 1
     
-  answer = check_list[0] - 1
+  answer = checkList[0] - 1
   return answer
 
 '''
@@ -68,6 +91,7 @@ def else4Loop (num):
 
 if __name__ == "__main__":
   # else4Loop (6)
-  answer = eatMeIter (7, 11, 17)
-  print ("The maximum number that", end = "")
+  # answer = eatMeIter (7, 11, 17)
+  answer = eatMeDynamic (7, 11, 17)
+  print ("The maximum number that ", end = "")
   print ("can not be combination of 7, 11, 17 is " + str (answer))
