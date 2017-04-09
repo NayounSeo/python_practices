@@ -4,18 +4,24 @@ def find_min_room(num_class, classes):
     # classes = [(no, start, end), ...]
     # 시작 시간에 맞게 정렬
     classes = sorted (classes, key=lambda a: a[2])
-    print (classes)
+
     # classes = sorted (classes, key=operator.itemgetter(0, 1))
     rooms = [classes[0]]
     min_rooms = 1
     del classes[0]
     
+    earliest_bye = rooms[j][2]
+    bye_ind = 0;
     for i in classes:
-        for j in rooms: # 새 수업의 시작 시간보다 작은 끝나는 시간이 있는지 탐색
-            if (j[2] <= i[1]):
-                j = i
-                break
-        else:
+        for j in rooms: # 가장 빨리 끝나는 회의를 탐색
+            # if (j[2] <= i[1]):
+            if (j[2] < earliest_bye):
+                earliest_bye = j[2];
+                bye_ind = rooms.index(j)
+
+        if (ealist_bye < i[1]):
+            rooms[bye_ind] = i
+        elif:
             rooms.append(i)
             min_rooms += 1
         rooms = sorted (rooms, key=lambda a: a[2]) # 끝나는 시간이 빠른 순서대로
