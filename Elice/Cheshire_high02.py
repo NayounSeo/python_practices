@@ -90,8 +90,8 @@ def else4Loop (num):
     break
 
 if __name__ == "__main__":
-  # else4Loop (6)
+  else4Loop (6)
   # answer = eatMeIter (7, 11, 17)
-  answer = eatMeDynamic (7, 11, 17)
-  print ("The maximum number that ", end = "")
-  print ("can not be combination of 7, 11, 17 is " + str (answer))
+  # answer = eatMeDynamic (7, 11, 17)
+  # print ("The maximum number that ", end = "")
+  # print ("can not be combination of 7, 11, 17 is " + str (answer))
