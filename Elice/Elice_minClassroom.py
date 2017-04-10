@@ -2,7 +2,7 @@
 def find_min_room(num_class, classes):
     # classes = [(no, start, end), ...]
     # 끝나는 시간이 빠른 순서로 정렬
-    classes = sorted (classes, key=lambda a: a[2])
+    classes = sorted (classes, key=lambda a: a[1])
     print (classes)
 
     # classes = sorted (classes, key=operator.itemgetter(0, 1))

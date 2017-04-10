@@ -43,10 +43,54 @@ def simple_path(nodes):
 
     return result
 
+# http://stackoverflow.com/questions/8922060/how-to-trace-the-path-in-a-breadth-first-search
+def bfs(nodes):
+    que = []
+    que.append([0])
+    end = len(nodes) - 1
+
+    while que:
+        print (que)
+        u = que.pop(0)
+        node = u[-1]
+        if node == end:
+            return u
+        for adjacent in nodes[node]:
+            already_in_path =0
+            for i in u:
+                if i == adjacent:
+                    already_in_path = 1
+                    break
+            if (already_in_path == 1):
+                break
+            new_path = list(u)
+            new_path.append(adjacent)
+            que.append(new_path)
+'''
+def simple_path(nodes):
+    queue = []
+    queue.append([0])
+    end = len(nodes) - 1
+
+    while queue:
+        path = queue.pop(0)
+        node = path[-1]
+        if node == end:
+            return path
+        for adjacent in nodes[node]:
+            new_path = list(path)
+            new_path.append(adjacent)
+            queue.append(new_path)
+'''
+
 def main():
     N = 9
     nodes = [[1, 2], [0, 3, 5], [0, 4, 6], [1, 6, 8], [2, 7], [1], [2, 3], [4, 8], [3, 7]]
-    print(simple_path(nodes))
+    graph = {0: [1, 2], 1: [0, 3, 5], 2: [0, 4, 6],  3: [1, 6, 8], 4: [2, 7], 5: [1], 6: [2, 3], 7: [4, 8], 8: [3, 7]}
+    # print(simple_path(nodes))
+    print(bfs(nodes))
+    # print(bfs(graph))
+
     
 if __name__ == "__main__":
     main()
