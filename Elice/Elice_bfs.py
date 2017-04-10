@@ -45,43 +45,47 @@ def simple_path(nodes):
 
 # http://stackoverflow.com/questions/8922060/how-to-trace-the-path-in-a-breadth-first-search
 def bfs(nodes):
-    que = []
-    que.append([0])
+    path_que = []
+    path_que.append([0])
     end = len(nodes) - 1
 
-    while que:
-        print (que)
-        u = que.pop(0)
-        node = u[-1]
-        if node == end:
-            return u
-        for adjacent in nodes[node]:
-            already_in_path =0
-            for i in u:
-                if i == adjacent:
-                    already_in_path = 1
-                    break
-            if (already_in_path == 1):
+    while path_que:
+        print(path_que)
+        print()
+        path = path_que.pop(0) # 현재까지 찾아낸 경로의 경우의 수
+
+        while (True):
+            if (check_path (path) == 0):
                 break
-            new_path = list(u)
-            new_path.append(adjacent)
-            que.append(new_path)
-'''
-def simple_path(nodes):
-    queue = []
-    queue.append([0])
-    end = len(nodes) - 1
+            path = path_que.pop(0)
 
-    while queue:
-        path = queue.pop(0)
         node = path[-1]
         if node == end:
             return path
-        for adjacent in nodes[node]:
+        for adj in nodes[node]:
             new_path = list(path)
-            new_path.append(adjacent)
-            queue.append(new_path)
-'''
+            new_path.append(adj)
+            path_que.append(new_path)
+
+def check_path (path):
+    result = 0
+    if (len(path) < 3):
+        return 0
+    for i in range(len(path) - 2):
+        if (path[i] == path[i + 2]):
+            result = 1
+            break
+    return result
+
+def check_v_in_path (v, path):
+    result = 0
+    if (len(path) < 3):
+        return 0
+    for i in range(len(path) - 1):
+        if (v == path[i]):
+            result = 1
+            break
+    return result
 
 def main():
     N = 9
