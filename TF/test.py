@@ -7,6 +7,8 @@ def main():
   hello = tf.constant("HELLO, TensorFlow! I did really want to meet you")
   sess = tf.Session()
   print(sess.run(hello))
+  # b는 byte stream이라는 뜻
+  # b'HELLO, TensorFlow! I did really want to meet you'
 
 
 if __name__ == "__main__":

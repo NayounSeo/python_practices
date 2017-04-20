@@ -8,7 +8,7 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 def prac01():
-  # Build graph
+  # Build graph - 그래프를 정의한다
   node1 = tf.constant(3.0, tf.float32)
   node2 = tf.constant(4.0) # also tf.float32 implicitly
   node3 = tf.add(node1, node2)
@@ -32,13 +32,19 @@ def prac01():
   값이 미리 정해지지 않고, 나중에 정해지는 점은 
   굉장히 유연한 프로그래밍을 할 수 있게 도와줍니다.”
   '''
-  # 정수 자료형의 종류로는 float32/64, int8/16/32/64가 있는듯
   a = tf.placeholder(tf.float32)
   b = tf.placeholder(tf.float32)
   adder_node = a + b
 
   print(sess.run(adder_node, feed_dict={a: 3, b: 4.5}))
   print(sess.run(adder_node, feed_dict={a: [1, 3], b: [2, 4]}))
+
+  # rank와 Shape을 잘 구분하자!
+  # rank : scalar, vector, matrix, 
+  # 3-Tensor([[[2], [3], [4]], [[5], [6], [7]], [[...]]], n-Tensor..
+  # shape : [A1, A2, A3, ..... , An] = n-Dimension
+  # shape은 tensor를 설계할때 중요해 ~ 
+  # type : float32/64, int8/16/32/64 - float32가 주고 사용됨
 
 if __name__ == "__main__":
   prac01()

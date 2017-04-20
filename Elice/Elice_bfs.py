@@ -40,7 +40,6 @@ def simple_path(nodes): # 최고 17점..
 # http://stackoverflow.com/questions/8922060/how-to-trace-the-path-in-a-breadth-first-search
 def bfs(nodes):
     path_que = []
-    visited = []
     path_que.append([0])
     end = len(nodes) - 1
 
@@ -55,12 +54,12 @@ def bfs(nodes):
         node = path[-1]
         if node == end:
             return path
-        elif node not in visited:
-            for adj in nodes[node]:
-                new_path = list(path)
-                new_path.append(adj)
-                path_que.append(new_path)
-        visited.append(node)
+
+        for adj in nodes[node]:
+            new_path = list(path)
+            new_path.append(adj)
+            path_que.append(new_path)
+
 
 def check_path (path):
     result = 0
