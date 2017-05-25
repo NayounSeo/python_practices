@@ -145,6 +145,7 @@ def prac05():
     plt.imshow(one_img.reshape(14, 14), cmap="gray")
   # plt.show()
 
+  # Max pooling을 이용한 subsampling
   pool = tf.nn.max_pool(conv2d, ksize=[1, 2, 2, 1], 
                         stride=[1, 2, 2, 1], padding="SAME")
   print(pool)
@@ -250,6 +251,7 @@ def prac06():
   #           reshape(28, 28), cmap='Greys', interpolation='nearest')
   # plt.show()
 
+# ensemble learning을 위해서라도 클래스화 시키는것이 좋다.
 def prac07():
   mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
   # Check out https://www.tensorflow.org/get_started/mnist/beginners for
