@@ -13,7 +13,6 @@ url = "http://tv.naver.com/v/1747159/list/132312"
 # TODO :
 # 1. 한시간에 한번씩 자동으로 실행되서 파일에 쓰기
 '''
-
 def main():
   html = urlopen(url).read()
   soup = BeautifulSoup(html, "html.parser")
@@ -22,12 +21,12 @@ def main():
   play_list = soup.find_all("div", class_="inner")
 
   date = datetime.datetime.now().strftime("%Y_%m_%d_%H-%M-%S")
-  with open("playLists_" + date + ".txt", "w", encoding="UTF8") as out:
+  with open("playLists_" + date + ".txt", "wt", encoding="UTF8") as out:
     for ind in range(9, 44):
       clip = play_list[ind]
 
       title = clip.find("a", class_="_click thumb")["title"]
-      # 공백을 제거한 뒤 multiple delimitersplit
+      # 공백을 제거한 뒤 multiple delimiter split
       title = re.findall(r"[\w']+", re.sub(r'[ ]+', '', title))
       i = title[2].find("택") # | 문자를 찾고 싶었는데..ㅜㅠ
       trainee = title[2][i + 2:]
@@ -38,6 +37,8 @@ def main():
 
       out.write(trainee + ", " + song + ", "
                + str(hit) + ", " + str(like) + "\n")
+
+  # print("꾸꾸까까?")
 
 if __name__ == "__main__":
   main()
