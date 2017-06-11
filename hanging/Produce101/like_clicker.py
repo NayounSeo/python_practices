@@ -20,14 +20,14 @@ def main():
 
   # Naver Login
   iD = chrome_driver.find_element_by_xpath('//*[@id="id"]')
-  # iD.send_keys('로그인할 아이디')
+  iD.send_keys('ID')
   psswd = chrome_driver.find_element_by_xpath('//*[@id="pw"]')
-  # psswd.send_keys('로그인 비밀번호')
+  psswd.send_keys('password')
   login = chrome_driver.find_element_by_xpath('//*[@id="frmNIDLogin"]/fieldset/input').click()
 
   # 댓글 누를 페이지에 접속
   chrome_driver.get(url_hit)
-  time.sleep(3) # 인터넷 접속 환경에따라 변경
+  time.sleep(4) # 인터넷 접속 환경에따라 변경
 
   see_all = chrome_driver.find_element_by_xpath(
                     '//*[@id="cbox_module"]/div/div[5]/div[1]/div/ul/li[2]/a')
@@ -44,10 +44,18 @@ def main():
   popped_video = chrome_driver.find_element_by_xpath('//*[@id="container"]/div[2]/div/div[1]/div[1]/a').click()
 
   for c in comments:
-    like = c.find_elements_by_css_selector('div.u_cbox_comment_box > div > div.u_cbox_tool > div > a.u_cbox_btn_recomm')
-    if ("u_cbox_btn_recomm_on" not in like[0].get_attribute("class")):
-      like[0].click()
-      time.sleep(1) # 너무 빨라서 안눌리더라..^^
+    try:
+      like = c.find_elements_by_css_selector('div.u_cbox_comment_box > div > div.u_cbox_tool > div > a.u_cbox_btn_recomm')
+    except:  # 경고창이 뜨는 경우
+      time.sleep(1)
+      alert = chrome_driver.switch_to_alert().accept()
+      time.sleep(1)
+      continue
+    else:
+      if ("u_cbox_btn_recomm_on" not in like[0].get_attribute("class")):
+        like[0].click()
+        time.sleep(1) # 너무 빨라서 안눌리더라..^^
+
 
   chrome_driver.quit()
 
