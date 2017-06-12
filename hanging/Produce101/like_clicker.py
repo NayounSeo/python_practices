@@ -13,14 +13,16 @@ python 3.5 / Selenium 을 사용하는 코드입니다.
 NICKNAME, 네이버 아이디, 비밀번호를 상황에 맞게 입력해주세요.
 
 WARNING :
-네이버 댓글 로딩에 맞추다 보니 그렇게 빠르지는 않습니다.
-실행이 되면 바로 브라우저 뜨고 바로 최대화 해주시고요, 
+네이버 댓글 로딩에 맞추다 보니 빠르지는 않습니다.
+
+실행이 되면 브라우저 뜬 후 바로 최대화 해주시고요, 
 플레이어 정지 -> 연속 재생 해제 후 4초가량 이후
 전체 댓글로 넘어가고 팝업된 비디오를 끈 뒤 좋아요를 누르기 시작합니다.
 실행 중에 클릭을 하면 실행이 멈추고,
 댓글을 누르는 사이사이 스크롤 정도만 허락됩니다ㅜㅠ
-스크롤도 막 하시면 좋아요 누르는 댓글이 건너뛰어요!
-토끼단의 현생을 응원합니다
+스크롤도 막 하시면 좋아요 누르는 댓글을 건너뛰어요!
+
+인터넷 환경에 따라 time.sleep()을 이용해 일시정지하는 시간을 조정해야 합니다.
 '''
 import time
 from selenium import webdriver
@@ -70,43 +72,43 @@ def main():
         + str(local.tm_hour) + "-" + str(local.tm_min)
   page_no = 1
   a_tag_no = 3
-  # with open("commenters" + hour + ".txt", 'w', encoding="UTF-8") as f:
-  while (True): # 돌리고 싶은 페이지 양만큼 돌도록 수정. page_no < 100 처럼
-    time.sleep(0.5)
+  with open("commenters" + hour + ".txt", 'w', encoding="UTF-8") as f:
+    while (True): # 돌리고 싶은 페이지 양만큼 돌도록 수정. page_no < 100 처럼
+      time.sleep(0.5)
 
-    # page 댓글들
-    comments = chrome_driver.find_elements_by_css_selector(
-    '#cbox_module > div > div.u_cbox_content_wrap > ul > li.u_cbox_comment')
+      # page 댓글들
+      comments = chrome_driver.find_elements_by_css_selector(
+      '#cbox_module > div > div.u_cbox_content_wrap > ul > li.u_cbox_comment')
 
-    for c in comments:
-      # 닉네임을 이용해서 자신의 댓글은 패스
-      comm_nick = c.find_element_by_xpath('div[1]/div/div[1]/span[1]/span/span/span/span').text
-      # f.write(comm_nick + "\n")
+      for c in comments:
+        # 닉네임을 이용해서 자신의 댓글은 패스
+        comm_nick = c.find_element_by_xpath('div[1]/div/div[1]/span[1]/span/span/span/span').text
+        f.write(comm_nick + "\n")
 
-      if (comm_nick != NICKNAME):
-        try:
-          like = c.find_elements_by_css_selector('div.u_cbox_comment_box > div > div.u_cbox_tool > div > a.u_cbox_btn_recomm')
-        except:  # 경고창이 뜨는 경우
-          alert = chrome_driver.switch_to_alert().accept()
-          time.sleep(1.5)
-          continue
-        else:
-          if ("u_cbox_btn_recomm_on" not in like[0].get_attribute("class")):
-            try:
-              like[0].click()
-              time.sleep(1)
-            except:
-              continue
+        if (comm_nick != NICKNAME):
+          try:
+            like = c.find_elements_by_css_selector('div.u_cbox_comment_box > div > div.u_cbox_tool > div > a.u_cbox_btn_recomm')
+          except:  # 경고창이 뜨는 경우
+            alert = chrome_driver.switch_to_alert().accept()
+            time.sleep(1.5)
+            continue
+          else:
+            if ("u_cbox_btn_recomm_on" not in like[0].get_attribute("class")):
+              try:
+                like[0].click()
+                time.sleep(1)
+              except:
+                continue
 
-    if (a_tag_no > 7):
-      a_tag_no = 3
-    next_view = chrome_driver.find_element_by_xpath('//*[@id="cbox_module"]/div/div[7]/div/a[' + str(a_tag_no) + ']').click()
+      if (a_tag_no > 7):
+        a_tag_no = 3
+      next_view = chrome_driver.find_element_by_xpath('//*[@id="cbox_module"]/div/div[7]/div/a[' + str(a_tag_no) + ']').click()
 
-    a_tag_no += 1
-    page_no += 1
+      a_tag_no += 1
+      page_no += 1
 
   chrome_driver.quit()
-  # f.close()
+  f.close()
 
 if __name__ == "__main__":
   main()
